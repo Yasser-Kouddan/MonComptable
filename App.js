@@ -1,16 +1,20 @@
-import { SafeAreaView, StatusBar } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native'
 import StartApp from './app/navigation/StartAppNav';
-import AddProduct from './app/screens/addActions/AddProduct';
-import AuthScreen from './app/screens/intro/AuthScreen';
-import NavBar from './app/navigation/NavBar';
+import { auth } from './app/firebase/FirebaseConfig';
 
 
 export default function App() {
+
+  console.log("The current user is: "+auth.currentUser?.uid)
+
   return ( 
-      // the real app <StartApp/> 
+      // the real app
+        <StartApp/>
       // testing plus button
-       <NavigationContainer><NavBar/></NavigationContainer> 
+      /* <NavigationContainer>
+          <NavBar/>
+        </NavigationContainer> */
+    // <ProfileScreen/>
+     //<SignupScreen/>
   );
 }
 
