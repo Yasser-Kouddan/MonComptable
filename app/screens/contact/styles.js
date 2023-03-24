@@ -18,7 +18,7 @@ const contactScreen = StyleSheet.create({
         width: W ,
         height: H * 0.6,
         marginTop: H * 0.01,
-        paddingVertical : H *0.008
+        paddingVertical : H *0.02
     }
 })
 
@@ -50,8 +50,12 @@ const contactCard = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: W * 0.01,
-        marginVertical: H * 0.012
+        marginHorizontal: W * 0.08,
+        marginVertical: H * 0.012,
+        justifyContent: "space-between"
+    },
+    nameContainer: {
+        flexDirection: "row"
     },
     iconContainer: {
         backgroundColor: '#D9D9D9',
@@ -60,16 +64,15 @@ const contactCard = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal: W * 0.08
+        marginRight: W * 0.05
     },
     iconText: {
         fontFamily: 'Roboto',
         fontWeight: '700',
         fontSize: 22,
     },
-    titleCard: {
+    titleContainer: {
         flexDirection: 'column',
-        marginRight: W * 0.15
     },
     title: {
         fontFamily: 'Roboto',
@@ -81,6 +84,10 @@ const contactCard = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
     },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent:'flex-end'
+    },
     callButton: {
         backgroundColor: '#A4BD01',
         width: 40,
@@ -88,7 +95,7 @@ const contactCard = StyleSheet.create({
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: W * 0.05
+        marginRight: W * 0.03
     },
     infoButton: {
         backgroundColor: '#DADADA',
