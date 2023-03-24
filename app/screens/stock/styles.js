@@ -58,6 +58,7 @@ const stockScreen = StyleSheet.create({
         backgroundColor: '#E3E6E9',
         height: H * 0.4,
         marginHorizontal: H * 0.035,
+        paddingVertical: W * 0.02,
         borderRadius: 20
       },
 })
@@ -73,27 +74,28 @@ const ruptureStock = StyleSheet.create({
     marginBottom: H * 0.01
   },
   logo: {
-      width: 50,
-      height: 50,
-      borderRadius: 50
+    width: 54,
+    height: 54,
+    borderRadius: 50
   },
   productName: {
     fontFamily: 'Roboto',
-    fontSize: 14,
-    marginRight: 16,
+    fontSize: 17,
+    marginRight: W * 0.06,
     fontWeight: '700',
     lineHeight: 40,
   },
   productCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
+    paddingHorizontal: W * 0.04,
     marginVertical: 6,
     marginHorizontal: 8
   },
   shortage: {
     fontFamily: 'Roboto',
-    fontSize: 19,
+    fontSize: 18,
     fontWeight: '700',
     lineHeight: 40,
     color: 'red'
