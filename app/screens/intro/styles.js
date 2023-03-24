@@ -63,6 +63,72 @@ const authScreen = StyleSheet.create({
       }
 })
 
+const signupScreen = StyleSheet.create({
+  title: {
+      fontFamily: 'Roboto',
+      fontWeight: '700',
+      fontSize: 28,
+      lineHeight: 35,
+      letterSpacing: 3,
+      color: '#427AA2',
+      textAlign: 'center',
+      position: 'absolute',
+      top: H * 0.19,
+      marginHorizontal: W * 0.05
+    },
+    warning: {
+      fontFamily: 'Roboto',
+      fontWeight: '600',
+      fontSize: 16,
+      color: "#fc7203",
+      marginHorizontal: 10
+    },
+    logo: {
+      width: 80,
+      height: 80,
+      position: 'absolute',
+      top: H * 0.06
+    },
+    imgPicker: {
+      marginVertical: W * 0.03,
+    },
+    textinput: {
+      paddingHorizontal: 15,
+      marginVertical: W * 0.03,
+      borderWidth: 2,
+      borderColor: '#427AA2',
+      borderRadius: 15,
+      width: 270,
+      height: 50,
+      color: '#427AA2',
+      fontWeight: '500'
+    },
+    inputField: {
+      position: 'absolute',
+      top: H * 0.3
+    },
+    buttonTitle: {
+      fontSize: 18,
+      fontFamily: 'Roboto',
+      fontWeight: '600',
+      color: 'white',  
+    },
+    button: {
+      backgroundColor: '#A4BD01',
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginHorizontal: 25,
+      marginVertical: 12,
+      borderRadius: 50,
+      width: 160,
+      height: 40,
+    },
+    buttonField: {
+      position: 'absolute',
+      top: H * 0.81
+    },
+})
+
 const background = StyleSheet.create({
     bg: {
       flex: 1,
@@ -100,4 +166,4 @@ const intro = StyleSheet.create({
 
 
 
-export { authScreen, background, intro }
+export { authScreen, signupScreen, background, intro }

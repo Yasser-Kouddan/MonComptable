@@ -3,39 +3,66 @@ import { Text, TextInput, SafeAreaView, Image, Alert, TouchableOpacity, Keyboard
 import { background, authScreen } from './styles'
 import logo from '../../assets/img/logo.png'
 
-// import firebase methods for handling authentification
-import { auth } from "../../firebase/FirebaseConfig";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 
+// import firebase methods for handling authentification
+import { auth, db } from "../../firebase/FirebaseConfig";
+import { createUsersCollectionGamma } from "../../firebase/FirebaseMethods"
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc, updateDoc } from "firebase/firestore"; 
+ 
 
 
 export default function AuthScreen({navigation}){
 
     const [email, SetEmail] = useState('')
     const [password, SetPassword] = useState('')
+    const data = {
+        UserInfo: {
+          userId: 'random string',
+          userName: 'string',
+          userEmail: 'string',
+          userPhone: 'string',
+          userSubscription: false
+        },
+        UserStore: {
+          Products: {
+            prodId: 'random string',
+            prodLabel: 'string',
+            prodBrand: 'string',
+            prodCategorie: 'string',
+            prodSellPrice: 0,
+            prodBuyPrice: 0,
+            prodQuantity: 0,
+            prodCriticalQuantity: 0
+          }
+        },
+        Accounting: {
+          incomes: 0,
+          expenses: 0
+        },
+        Contacts: {
+          contactId: 'random string',
+          contactName: 'string',
+          contactCompany: 'string',
+          contactEmail: 'string',
+          contactPhone: 'string',
+          contactCity: 'string',
+          contactCategorie: 'string'
+        }
+        }
 
     const handleSignIn = (email, password) => {
-
+        // setPersistance is causing this error
         if(email != "" || password != ""){ 
-         signInWithEmailAndPassword(auth, email, password)
-           .then( (userCredential) => { 
-               const user = userCredential.user;
-               Alert.alert("Login successfully")
-               navigation.navigate("myApp")
-             })
-           .catch( (err) => Alert.alert("Login failed : "+err.message) )
-         }else Alert.alert("Please enter your email and password to proceed!")
-    }
-    
-    const handleSignUp = (email, password) => {
-        if(email != "" || password != ""){
-          createUserWithEmailAndPassword(auth, email, password)
-            .then( () => { 
-              Alert.alert("Signing up successfully")
-              navigation.navigate("myApp")
-            })
-            .catch( (err) => Alert.alert("Signing up failed : "+err.message) )
-        }else Alert.alert("Please enter your email and password to proceed!")
+            const signedIn = signInWithEmailAndPassword(auth, email, password)
+              .then( () => {
+                  Alert.alert("Login successfully");
+                  navigation.navigate("myApp");
+                })
+              .catch( (err) => Alert.alert("Login failed : "+err.message) )
+            return signedIn
+      }else Alert.alert("Please enter your email and password to proceed!")
+      
     }
     
   
@@ -64,7 +91,7 @@ export default function AuthScreen({navigation}){
                 </TouchableOpacity>
                 <Text style={authScreen.separator}>-----------   OU   -----------</Text>
                 <TouchableOpacity style={authScreen.button} 
-                    onPress={() => handleSignUp(email, password)}>
+                    onPress={() => navigation.navigate("signup")}>
                     <Text style={authScreen.buttonTitle}>Inscrivez-vous</Text>
                 </TouchableOpacity>
             </View>  
