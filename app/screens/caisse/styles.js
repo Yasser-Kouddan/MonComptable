@@ -79,8 +79,9 @@ const caisseScreen = StyleSheet.create({
       productCard: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
         marginVertical: 5,
+        marginHorizontal: W * 0.04
       },
       price: {
         fontFamily: 'Roboto',
