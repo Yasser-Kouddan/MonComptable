@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, Dimensions, SafeAreaView, StatusBar } from 'react-native'
+import { View, Image, StyleSheet, Dimensions, SafeAreaView, KeyboardAvoidingView, StatusBar } from 'react-native'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import { FontAwesome5 } from '@expo/vector-icons';
 import plus from '../assets/img/plus.png' 
@@ -9,9 +9,8 @@ const W = Dimensions.get("screen").width
 
 
 // import screens that use bottom tab navigation
-import HomeScreen from '../screens/home/HomeScreen'
+import { HomeStack, AddStack } from './NavStack';
 import Contact from '../screens/contact/Contact'
-import AddStack from './NavStack';
 import Caisse from '../screens/caisse/Caisse'
 import Stock from '../screens/stock/Stock'
 
@@ -57,7 +56,7 @@ export default function NavBar(){
     return(
         <SafeAreaView style={{flex: 1, backgroundColor: '#EBF2FA'}}>
                 <Tab.Navigator screenOptions={options.navOptions}>
-                    <Tab.Screen name='home' component={HomeScreen} options={options.homeOptions}/>
+                    <Tab.Screen name='home' component={HomeStack} options={options.homeOptions}/>
                     <Tab.Screen name='contact' component={Contact} options={options.contactOptions}/>
                     <Tab.Screen name='addStack'component={AddStack} options={options.addActionOptions}/>
                     <Tab.Screen name='caisse' component={Caisse} options={options.caisseOptions}/>

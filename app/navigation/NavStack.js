@@ -11,7 +11,7 @@ import AddProduct from '../screens/addActions/AddProduct'
 import AddContact from '../screens/addActions/AddContact'
 import AddBill from '../screens/addActions/AddBill'
 
-export default function AddStack(){
+function AddStack(){
     return(
         <Stack.Navigator initialRouteName='addScreen'>
             <Stack.Screen name='addScreen' component={AddScreen} options={{headerShown: false}}/>
@@ -21,3 +21,20 @@ export default function AddStack(){
         </Stack.Navigator>
     );
 }
+
+
+import HomeScreen from '../screens/home/HomeScreen'
+import ProfileScreen from '../screens/home/ProfileScreen'
+import Settings from '../screens/home/Settings'
+
+function HomeStack(){
+    return(
+        <Stack.Navigator initialRouteName='homeScreen'>
+            <Stack.Screen name='homeScreen' component={HomeScreen} options={{headerShown: false}}/>
+            <Stack.Screen name='settings' component={Settings} />
+            <Stack.Screen name='profile' component={ProfileScreen} />
+        </Stack.Navigator>
+    );
+}
+
+export { HomeStack, AddStack}
