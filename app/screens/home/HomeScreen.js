@@ -1,100 +1,146 @@
-import { View, Text, Image, ScrollView } from "react-native";
+import { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image, ScrollView, TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import { background, homeScreen } from './styles';
-import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import logo from '../../assets/img/logo.png'
 import avatar from '../../assets/img/avatar.jpg'
+import { doc, setDoc } from "firebase/firestore";
+import {db} from '../../firebase/FirebaseConfig';
+import { getProductCollection } from '../../firebase/FirebaseMethods';
+import GrocerySearch from '../../components/GrocerySearch';
 
-import petit_dej from '../../assets/img/categorie/petit_dej.png'
-import farine from '../../assets/img/categorie/farine.png'
-import huile from '../../assets/img/categorie/huile.png'
-import nettoyage from '../../assets/img/categorie/nettoyage.png'
-import produits_laitier from '../../assets/img/categorie/produits_laitier.png'
 
-export default function HomeScreen(){
+export default function HomeScreen({navigation}){
+
+    const [productArray, setProductArray] = useState(new Map());
+
+    useEffect(() => {
+        async function fetchData() {
+            const data = await getProductCollection();
+            setProductArray(data);
+        }
+        fetchData();
+    }, []);
+
+    const ProductCards = []
+
+    productArray.forEach( (value, key) => {
+        let shortage = value.prodQuantity - value.prodCriticalQuantity
+        let categorie
+        switch(value.prodCategorie){
+            case "milk"     : categorie =  "produits_laitier";   break;
+            case "cleaning" : categorie =  "nettoyage";   break;
+            case "oil"      : categorie =  "huile";   break;
+            case "breakfast": categorie =  "petit_dej";   break;
+            case "epicerie" : categorie =  "epicerie";   break;
+            case "farine"   : categorie =  "farine";   break;
+            case "autre"    : categorie =  "others";   break;
+            default         : categorie =  "others";   break;
+        }
+
+        console.log(categorie)
+        ProductCards.push(<ProductCard key={key} categorie={categorie} productName={value.prodLabel} shortage={shortage}/>)
+    })
+
     return(
-        <View style={background.bg}>
-            <Header/>
-            <Analytics/>
-            <RuptureStock/>
-        </View>
+        <KeyboardAvoidingView style={background.bg} behavior="padding">
+            <Header />
+            <DisplayStock/>
+            <RuptureStock data={ProductCards}/>
+        </KeyboardAvoidingView>
     );
 }
+
 
 
 function Header(){
+        const navigation = useNavigation()
     return(
-        <View style={homeScreen.header}>
-            <Feather name="menu" size={30} color="black" />
+        <KeyboardAvoidingView style={homeScreen.header}>
+            <TouchableOpacity onPress={() => navigation.navigate("settings")}>
+                <Ionicons name="settings" size={35} color="black" />
+            </TouchableOpacity>
             <Image source={logo} style={{width: 45, height:45}}/>
-            <Image source={avatar} style={homeScreen.avatar}/>
-        </View>
+            <TouchableOpacity onPress={() => navigation.navigate("profile")}>
+                <Image source={avatar} style={homeScreen.avatar}/>
+            </TouchableOpacity>
+        </KeyboardAvoidingView>
     );
 }
 
 
-function Analytics(){
+function DisplayStock(){
+
+    const groceryData = [
+        {
+          id: 1,
+          name: 'Bananas',
+          description: 'A bunch of ripe bananas',
+          price: '$1.50'
+        },
+        {
+          id: 2,
+          name: 'Milk',
+          description: 'A gallon of whole milk',
+          price: '$3.99'
+        },
+        {
+          id: 3,
+          name: 'Bread',
+          description: 'A loaf of sliced whole wheat bread',
+          price: '$2.49'
+        },
+        // more grocery items ...
+      ];
+
+      
 
     return(
-        <View style={homeScreen.section}>
-            <Text style={homeScreen.title}>Analytiques</Text>
-            <View style={homeScreen.showcaseAnalytics}>         
-            </View>
-        </View>
+        <KeyboardAvoidingView style={homeScreen.section}>
+            <Text style={homeScreen.title}>Chercher un produit</Text>
+            <KeyboardAvoidingView style={homeScreen.showcaseAnalytics}>  
+                <GrocerySearch groceryData={groceryData} />  
+            </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
     );
 }
 
 
-function RuptureStock(){
-
-    const ProductCard = (props) => {
-        return(
-            <View style={homeScreen.productCard}>
-                <Image source={props.categorie} style={homeScreen.logo}/>
-                <Text style={homeScreen.productName}>{props.productName}</Text>
-                <Text style={homeScreen.shortage}>{props.shortage}</Text>
-            </View>
-        );
-    }
+function RuptureStock(props){
 
     return(
-        <View style={homeScreen.section}>
+        <KeyboardAvoidingView style={homeScreen.section}>
             <Text style={homeScreen.title}>Rupture de stock</Text>
-            <View style={homeScreen.showcaseShortage}>
+            <KeyboardAvoidingView style={homeScreen.showcaseShortage}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <ProductCard
-                        categorie={huile}
-                        productName={"Huile d'olive 1L - Horra"}
-                        shortage={24}
-                        />
-                    <ProductCard
-                        categorie={farine}
-                        productName={"Huile d'olive 1L - Horra"}
-                        shortage={24}
-                        />
-                    <ProductCard
-                        categorie={produits_laitier}
-                        productName={"Huile d'olive 1L - Horra"}
-                        shortage={24}
-                        />
-                        <ProductCard
-                        categorie={huile}
-                        productName={"Huile d'olive 1L - Horra"}
-                        shortage={24}
-                        />
-                    <ProductCard
-                        categorie={farine}
-                        productName={"Huile d'olive 1L - Horra"}
-                        shortage={24}
-                        />
-                    <ProductCard
-                        categorie={produits_laitier}
-                        productName={"Huile d'olive 1L - Horra"}
-                        shortage={24}
-                        />
-
+                    {props.data.map((component) => component)}
                 </ScrollView>       
-            </View>
-        </View>
+            </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
     );
 }
 
+const ProductCard = (props) => {
+
+    const categoryImages = {
+        produits_laitier: require("../../assets/img/categorie/produits_laitier.png"),
+        nettoyage: require("../../assets/img/categorie/nettoyage.png"),
+        huile: require("../../assets/img/categorie/huile.png"),
+        petit_dej: require("../../assets/img/categorie/petit_dej.png"),
+        epicerie: require("../../assets/img/categorie/epicerie.png"),
+        farine: require("../../assets/img/categorie/farine.png"),
+        others: require("../../assets/img/categorie/other.png"),
+      };
+      
+    const imageSource = categoryImages[props.categorie];
+    
+    return(
+      <KeyboardAvoidingView style={homeScreen.productCard}>
+        <Image source={imageSource} style={homeScreen.logo}/>
+        <Text style={homeScreen.productName}>{props.productName}</Text>
+        <Text style={homeScreen.shortage}>{props.shortage}</Text>
+      </KeyboardAvoidingView>
+    );
+  }
+  
